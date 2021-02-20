@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graph</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css" integrity="sha512-NmLkDIU1C/C88wi324HBc+S2kLhi08PN5GDeUVVVC/BVt/9Izdsc9SVeVfA1UZbY3sHUlDSyRXhCzHfr6hmPPw==" crossorigin="anonymous" />
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./assets/css/base.css">
+    <link rel="stylesheet" href="./assets/css/main.css">
+</head>
+<body>
+    <div class="app">
+        <header class="header">
+            Graph
+        </header>
+        <div class="content">
+
+            <div class="group">
+                <div class="control">
+                    <h4 class="control__title">
+                        Algorithm
+                    </h4>
+                    <select name="" id="" class="control__select">
+                        <option value="dfs">DFS</option>
+                        <option value="bfs">BFS</option>
+                        <option value="dijkstra">Dijkstra</option>
+                    </select>
+                </div>
+                <div class="control">
+                    <h4 class="control__title">
+                        Starting Node
+                    </h4>
+                    <select name="" id="path-start" class="control__select">
+                        
+                    </select>
+                </div>
+                <div class="control">
+                    <h4 class="control__title">
+                        Ending Node
+                    </h4>
+                    <select name="" id="path-end" class="control__select">
+                        
+                    </select>
+                </div>
+                <div class="control">
+                    <span class="control__btn">
+                        VISUALIZE
+                    </span>
+                </div>
+               
+            </div>
+            <div class="draw" id="draw" oncontextmenu="return false;">
+                <!-- <canvas id="canvas">
+                </canvas> -->
+                <div id="canvas" class="draw__board">
+                    
+                </div>
+                
+                <!-- <ul class="node-dropdown">
+                    <li class="node-dropdown__item">
+                        <a href="#" class="node-dropdown__link">Delete node</a>
+                    </li>
+                    <li class="node-dropdown__item">
+                        <a href="#" class="node-dropdown__link">Delete edge</a>
+                        <ul class="node-dropdown">
+                            <li class="node-dropdown__item">
+                                <a href="#" class="node-dropdown__link">11</a>
+                            </li>
+                            
+                        </ul>
+                    </li>
+                </ul> -->
+                
+            </div>
+            
+        </div>
+        <footer class="footer">
+
+        </footer>
+    </div>
+    <script src="./assets/javascript/nodeDropDown.js"></script>
+    <script src="./assets/javascript/script.js"></script>
+    <script src="./assets/javascript/Node.js"></script>
+</body>
+</html>

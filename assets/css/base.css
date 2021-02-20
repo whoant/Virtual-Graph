@@ -1,0 +1,32 @@
+:root {
+    --white-color: #fff;
+    --black-color: #0D1929;
+    --background-color: #EFEFEF;
+    --green-color: #02E095;
+}
+
+
+* {
+    box-sizing: inherit;
+}
+
+html {
+    font-size: 62.5%;
+    line-height: 1.6rem;
+    font-family: 'Roboto', sans-serif;
+    box-sizing: border-box;
+}
+
+h4 {
+    margin: 0;
+}
+
+@keyframes growDropMenu {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+        
+    }
+}
