@@ -6,9 +6,24 @@ class Node {
         this.y = y;
         this.index = index;
         this.nodeDropDown = null;
-
         this.edges = [];
 
+    }
+
+    pushEdge(edge){
+        this.edges.push(edge);
+    }
+
+    deleteEdge(edge){
+        const indexDege = this.edges.indexOf(edge);
+        this.edges.splice(indexDege, 1);
+    }
+
+    getEdgeNotConnect(){
+        let arrEdge = [];
+        listNode.forEach(node => arrEdge.push(node.index));
+        let res = arrEdge.filter(edge => this.edges.includes(edge) === false && edge != this.index);
+        return res;
     }
 
     draw(){
@@ -17,6 +32,7 @@ class Node {
         
         this.setNewCoordinates(newNode);
 
+        
         newNode.ondragend = (event) => {
             if (this.nodeDropDown != null) this.removeDropmenuNode();
             // if (event.x === 0 || event.y === 0) return;
@@ -31,6 +47,7 @@ class Node {
             
         }
 
+        // Click right newNode
         newNode.oncontextmenu = (event) => {
             
             if (this.nodeDropDown != null) return;
@@ -43,26 +60,39 @@ class Node {
             const deleteNode = createDropDownNode('Delete node');
 
             deleteNode.onclick = () => {
-                let index = listNode.findIndex(item => item.index === this.index);
-                listNode.splice(index, 1);
+
+                listNode.delete(this.index);
                 renderSelectNode();
                 this.removeDropmenuNode();
                 newNode.remove();
             }
-            this.nodeDropDown.appendChild(deleteNode);
+            this.nodeDropDown.append(deleteNode);
 
-            const deleteEdge = createDropDownNode('Delete edge');
+            // Delete edge
 
-            this.nodeDropDown.appendChild(deleteEdge);
+            const elemDelEdge = createChildDropDownMenu(this.edges, this, this.eventDeleteEdge);
+
+            const deleteEdge = createDropDownNode('Delete edge', elemDelEdge);
+            this.nodeDropDown.append(deleteEdge);
             
-            const addUndirected = createDropDownNode('Add undirected edge');
+            //render edge not connect
+            const edgeNotConnect = this.getEdgeNotConnect();
 
-            this.nodeDropDown.appendChild(addUndirected);
-
-            const addDirected = createDropDownNode('Add directed edge');
-            this.nodeDropDown.appendChild(addDirected);
             
-            newNode.appendChild(this.nodeDropDown);
+            // Add undirected edge
+            const elemEdge = createChildDropDownMenu(edgeNotConnect, this, this.eventPushUndiretedEdge);
+            const addUndirected = createDropDownNode('Add undirected edge', elemEdge);
+            
+            this.nodeDropDown.append(addUndirected);
+            
+            
+            // Add dircted edge
+            const cloneElemEdge = createChildDropDownMenu(edgeNotConnect, this, this.eventPushEdge);
+            const addDirected = createDropDownNode('Add directed edge', cloneElemEdge);
+            
+            this.nodeDropDown.append(addDirected);
+            
+            newNode.append(this.nodeDropDown);
         }
 
         const childNode = document.createElement('div');
@@ -71,11 +101,35 @@ class Node {
         childNode.classList.add('draw__board-circle');
         childNode.textContent = this.index;
 
-        newNode.appendChild(childNode);
+        newNode.append(childNode);
 
         newNode.innerHTML += `<p class="draw__board-des">PREV: 10</p>`;
-        document.getElementById('canvas').appendChild(newNode);
+        document.getElementById('canvas').append(newNode);
     }
+
+    eventPushEdge(parent, edge){
+        parent.pushEdge(edge);
+        parent.edges.sort();
+    }
+    
+    eventDeleteEdge(parent, edge){
+        parent.deleteEdge(edge);
+        parent.edges.sort();
+        
+    }
+
+    eventPushUndiretedEdge(parent, edge){
+        parent.pushEdge(edge);
+        parent.edges.sort();
+
+        let tempNode = listNode.get(edge);
+        tempNode.pushEdge(parent.index);
+        tempNode.edges.sort();
+
+    }
+
+
+    
 
 
     setNewCoordinates(newNode){
@@ -88,6 +142,4 @@ class Node {
         this.nodeDropDown = null;
     }
 
-
- 
 }

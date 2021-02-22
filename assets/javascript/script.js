@@ -4,7 +4,7 @@ const DIAMETER = RADIUS * 2;
 const heightDraw = 500;
 const heightNode = 72; // height Node
 
-let listNode = [];
+let listNode = new Map();
 let curNode = 1;
 
 const startX = document.querySelector('.group').offsetWidth; // 
@@ -28,15 +28,13 @@ function drawCircle(x, y){
     
     const newNode = new Node(x, y, curNode);
     newNode.draw();
-    listNode.push(newNode);
-    curNode++;
-        
+    listNode.set(curNode++, newNode);  
 
 }
 
 function createDropSelect(x, y){
 
-    if (checkDuplicate(x - RADIUS, y - RADIUS) === false) return;
+    if (isDuplicate(x - RADIUS, y - RADIUS) === true) return;
 
     removeDropSelect();
     const dropDown = document.createElement('ul');
@@ -55,35 +53,38 @@ function createDropSelect(x, y){
         removeDropSelect();
     }
 
-    dropDown.appendChild(addNode);
+    dropDown.append(addNode);
 
     //Remove Canvas
 
     const removeCanvas = createDropDownNode('Clear screen');
 
+    //Reset canvas
     removeCanvas.onclick = function(){
         document.getElementById('canvas').innerHTML = '';
         curNode = 1;
-        listNode.length = 0;
+        listNode.clear();
         renderSelectNode();
         removeDropSelect();
     }
 
-    dropDown.appendChild(removeCanvas);
+    dropDown.append(removeCanvas);
 
-    document.getElementById('draw').appendChild(dropDown);
+    document.getElementById('draw').append(dropDown);
 }
 
 
-function checkDuplicate(x, y){
-    let resuft = listNode.every(item => {
-        let a = Math.pow((item.x - x), 2);
-        let b = Math.pow((item.y - y), 2);
+function isDuplicate(x, y){
+    let res = false;
+    listNode.forEach(value => {
+        let a = Math.pow((value.x - x), 2);
+        let b = Math.pow((value.y - y), 2);
 
         let ab = Math.sqrt(a + b);
-        return ab > DIAMETER;
+        if (ab < DIAMETER) res = true;
+        
     });
-    return resuft;
+    return res;
     
 }
 
@@ -100,7 +101,12 @@ function removeDropSelect(){
 function renderSelectNode(){
     const pathStart = document.getElementById('path-start');
     const pathEnd = document.getElementById('path-end');
-    let listRender = listNode.map(node => `<option value="${node.index}">${node.index}</option>`);
+
+    let listRender = [];
+    listNode.forEach(value => {
+        listRender.push(`<option value="${value.index}">${value.index}</option>`);
+    });
+
     pathStart.innerHTML = listRender.join('');
     pathEnd.innerHTML = listRender.join('');
     
